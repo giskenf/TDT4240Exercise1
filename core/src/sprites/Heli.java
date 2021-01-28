@@ -14,7 +14,6 @@ import java.lang.Math;
 import giske.mygdx.game.MyGdxGame;
 
 public class Heli {
-    //private static final int GRAVITY = -10;
     private boolean UP = true;
     private static final int SPEED = 200;
     private boolean RIGHT = false;

@@ -1,5 +1,6 @@
 package sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
@@ -15,17 +16,32 @@ public class Heli {
     private Vector3 velocity;
     public Sprite heliSprite;
     public Texture heli;
+    public float inputPosX = 0;
+    public float inputPosY = 0;
 
     public Heli(int x, int y){
+        velocity = new Vector3(x,y,0);
         position = new Vector3(x,y,0);
-        //velocity = new Vector3(0,0,0);
         heli = new Texture("heli1.png");
         heliSprite = new Sprite(heli);
+
     }
 
     public void update (float dt){
+        handleInput();
         moveX(SPEED * dt);
         moveY(SPEED * dt);
+    }
+
+    public void handleInput(){
+        if(Gdx.input.justTouched()){
+            position.x = Gdx.input.getX();
+            position.y = 800 - Gdx.input.getY();
+            System.out.print(getPosition() + "\n");
+            System.out.print(Gdx.input.getX()  + "\n");
+            System.out.print(Gdx.input.getY()  + "\n");
+
+        }
     }
 
     public Vector3 getPosition() {
@@ -38,7 +54,7 @@ public class Heli {
 
     public void moveX(float movement){
         if (RIGHT) {
-            position.x += movement;
+            position.x += movement ;
         } else {
             position.x -= movement;
 
@@ -66,6 +82,10 @@ public class Heli {
         if (!UP && position.y <= 0){
             UP = true;
         }
+    }
+
+    public void touchMove(float inputX, float inputY){
+
     }
 
 }

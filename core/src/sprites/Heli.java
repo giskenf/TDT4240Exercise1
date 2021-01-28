@@ -1,9 +1,13 @@
 package sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import java.lang.Math;
+
 
 import giske.mygdx.game.MyGdxGame;
 
@@ -13,14 +17,15 @@ public class Heli {
     private static final int SPEED = 200;
     private boolean RIGHT = false;
     private Vector3 position;
-    private Vector3 velocity;
+    private Vector3 direction;
     public Sprite heliSprite;
     public Texture heli;
     public float inputPosX = 0;
     public float inputPosY = 0;
+    private boolean touched = false;
 
     public Heli(int x, int y){
-        velocity = new Vector3(x,y,0);
+        direction = new Vector3(x,y,0);
         position = new Vector3(x,y,0);
         heli = new Texture("heli1.png");
         heliSprite = new Sprite(heli);
@@ -29,18 +34,27 @@ public class Heli {
 
     public void update (float dt){
         handleInput();
-        moveX(SPEED * dt);
-        moveY(SPEED * dt);
+        if(touched){
+            moveX(SPEED * dt);
+            moveY(SPEED * dt);
+            //touchMove(SPEED * dt);
+        }
+
     }
 
     public void handleInput(){
         if(Gdx.input.justTouched()){
-            position.x = Gdx.input.getX();
-            position.y = 800 - Gdx.input.getY();
-            System.out.print(getPosition() + "\n");
-            System.out.print(Gdx.input.getX()  + "\n");
-            System.out.print(Gdx.input.getY()  + "\n");
+            touched = true;
+            inputPosX = Gdx.input.getX();
+            inputPosY = (800 - Gdx.input.getY());
+            direction.x = Math.abs(inputPosX-position.x);
+            direction.y = Math.abs(inputPosY-position.y);
+            direction.nor();
 
+            System.out.print(getPosition() + "\n");
+            System.out.print("X: " + inputPosX  + "\n");
+            System.out.print("Y: " + inputPosY  + "\n");
+            System.out.print("direction: " + direction + "\n");
         }
     }
 
@@ -53,39 +67,34 @@ public class Heli {
     }
 
     public void moveX(float movement){
-        if (RIGHT) {
-            position.x += movement ;
-        } else {
-            position.x -= movement;
-
+        if(inputPosX > position.x){
+            position.x += (movement * direction.x);
         }
-        if (RIGHT && position.x > MyGdxGame.WIDTH - heli.getWidth()) {
-            RIGHT = false;
+        else{
+            position.x -= (movement * direction.x);
+        }
+        if (position.x > MyGdxGame.WIDTH - heli.getWidth()) {
             heliSprite.flip(true, false);
 
         }
-        if (!RIGHT && position.x < 0) {
+        if (position.x < 0) {
             RIGHT = true;
             heliSprite.flip(true, false);
         }
     }
 
     public void moveY(float movement){
-        if(UP){
-            position.y += movement;
-        } else {
-            position.y -= movement;
+        if(inputPosY > position.y){
+            position.y += (movement * direction.y);
         }
-        if (UP && position.y > MyGdxGame.HEIGHT - heli.getHeight()){
+        else{
+            position.y -= (movement * direction.y);
+        }
+        if (position.y > MyGdxGame.HEIGHT - heli.getHeight()){
             UP = false;
         }
-        if (!UP && position.y <= 0){
+        if (position.y <= 0){
             UP = true;
         }
     }
-
-    public void touchMove(float inputX, float inputY){
-
-    }
-
 }

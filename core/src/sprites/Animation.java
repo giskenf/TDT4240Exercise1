@@ -20,7 +20,7 @@ class Animation{
         frame = 0;
 
         for (int i = 0; i < frameCount; i++) {
-            texReg = new TextureRegion(region, i * region.getRegionWidth(), 0, frameWidth, region.getRegionHeight());
+            texReg = new TextureRegion(region, i * frameWidth, 0, frameWidth, region.getRegionHeight());
             frames.add(texReg);
         }
         this.frameCount = frameCount;
@@ -36,6 +36,7 @@ class Animation{
         if (frame >= frameCount) {
             frame = 0;
         }
+        System.out.print(frame + "\n");
     }
 
     public TextureRegion getFrame() {

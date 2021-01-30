@@ -1,6 +1,7 @@
 package sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -20,6 +21,7 @@ public class AnimateHeli {
     private Texture heliAnimated;
     private TextureRegion texReg;
     private Random rand;
+    private Sprite heliSprite;
 
     public AnimateHeli(int x, int y){
         position = new Vector3(x,y,0);
@@ -29,14 +31,15 @@ public class AnimateHeli {
         heli.dispose();
         heliAnimated = new Texture("heliAnimation.png");
         texReg = new TextureRegion(heliAnimated);
-        heliAnimation = new Animation(texReg, 4, 5f);
-        //heliSprite = new Sprite(heli);
+        heliAnimation = new Animation(texReg, 4, 0.1f);
 
         rand = new Random();
         SPEED = 20 * rand.nextInt(20) + 1;
         UP = rand.nextBoolean();
         RIGHT = rand.nextBoolean();
         bounds = new Rectangle(position.x, position.y, heli.getWidth(), heli.getHeight());
+
+        heliSprite = new Sprite(texReg);
     }
 
     public void update (float dt, AnimateHeli h2, AnimateHeli h3){

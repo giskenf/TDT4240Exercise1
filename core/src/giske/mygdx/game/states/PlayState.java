@@ -20,9 +20,6 @@ public class PlayState extends State {
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        //heli = new Heli(100,100);
-        //font = new BitmapFont();
-
         heli1 = new AnimateHeli(MyGdxGame.WIDTH / 2 + 300, MyGdxGame.HEIGHT / 2);
         heli2 = new AnimateHeli(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2);
         heli3 = new AnimateHeli(MyGdxGame.WIDTH / 2 - 300, MyGdxGame.HEIGHT / 2);

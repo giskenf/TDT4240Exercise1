@@ -10,12 +10,16 @@ import java.awt.Rectangle;
 import giske.mygdx.game.MyGdxGame;
 import sprites.AnimateHeli;
 import sprites.Heli;
+import sprites.LeftPaddle;
+import sprites.RightPaddle;
 
 public class PlayState extends State {
     private Heli heli;
     private BitmapFont font;
     private AnimateHeli heli1, heli2, heli3;
     private Rectangle touch;
+    private LeftPaddle leftPaddle;
+    private RightPaddle rightPaddle;
 
 
     public PlayState(GameStateManager gsm) {

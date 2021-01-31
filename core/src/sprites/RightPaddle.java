@@ -9,20 +9,21 @@ import com.badlogic.gdx.math.Vector3;
 import giske.mygdx.game.MyGdxGame;
 
 public class RightPaddle {
-    private Vector3 position;
-    private Texture texture;
+    public Vector3 position;
+    public Texture texture;
     private int SPEED, mousePosition;
-    private Rectangle bounds;
+    public Rectangle bounds;
 
     public RightPaddle(int x, int y){
         position = new Vector3(x, y, 0);
-        texture = new Texture("");
+        texture = new Texture("paddle.png");
         bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
-        SPEED = 20;
+        SPEED = 10;
     }
 
-    public void update (float dt, AnimateHeli h2, AnimateHeli h3){
+    public void update (){
         bounds.setPosition(position.x, position.y);
+        System.out.print(position.x + ", " + position.y + "\n");
         if(position.y < 0){
             position.y = 0f;
         }

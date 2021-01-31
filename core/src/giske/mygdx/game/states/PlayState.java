@@ -5,29 +5,32 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.awt.MediaTracker;
 import java.awt.Rectangle;
 
 import giske.mygdx.game.MyGdxGame;
 import sprites.AnimateHeli;
+import sprites.Ball;
 import sprites.Heli;
 import sprites.LeftPaddle;
 import sprites.RightPaddle;
 
 public class PlayState extends State {
-    private Heli heli;
     private BitmapFont font;
-    private AnimateHeli heli1, heli2, heli3;
     private Rectangle touch;
     private LeftPaddle leftPaddle;
     private RightPaddle rightPaddle;
+    private Ball ball;
+    private int scoreLeft, scoreRight = 0;
+    private String winnerStr = "";
 
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        heli1 = new AnimateHeli(MyGdxGame.WIDTH / 2 + 300, MyGdxGame.HEIGHT / 2);
-        heli2 = new AnimateHeli(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2);
-        heli3 = new AnimateHeli(MyGdxGame.WIDTH / 2 - 300, MyGdxGame.HEIGHT / 2);
-
+        leftPaddle = new LeftPaddle(50, 30);
+        rightPaddle = new RightPaddle(430, 30);
+        ball = new Ball();
+        font = new BitmapFont();
     }
 
     @Override
@@ -40,21 +43,39 @@ public class PlayState extends State {
     @Override
     public void update(float dt) {
         handleInput();
-        heli1.update(dt, heli2, heli3);
-        heli2.update(dt, heli1, heli3);
-        heli3.update(dt, heli1, heli2);
+        leftPaddle.update();
+        rightPaddle.update();
+        ball.update(dt, this, leftPaddle, rightPaddle);
 
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        //sb.draw(heli.heliSprite, heli.getPosition().x, heli.getPosition().y);
-        //font.draw(sb, heli.getPosition().toString() , 10, 780);
-        sb.draw(heli1.getTexture(), heli1.getPosition().x, heli1.getPosition().y);
-        sb.draw(heli2.getTexture(), heli2.getPosition().x, heli2.getPosition().y);
-        sb.draw(heli3.getTexture(), heli3.getPosition().x, heli3.getPosition().y);
+        if(winnerStr != ""){
+            font.draw(sb, winnerStr, 300f, MyGdxGame.HEIGHT / 2 + 100);
+        }
+        else{
+            sb.draw(rightPaddle.texture, rightPaddle.position.x, rightPaddle.position.y);
+            sb.draw(leftPaddle.texture, leftPaddle.position.x, leftPaddle.position.y);
+            sb.draw(ball.texture, ball.position.x, ball.position.y,20f,20f );
+            font.draw(sb, "Score left : Score right", MyGdxGame.WIDTH / 2 -100, MyGdxGame.HEIGHT-50);
+        }
         sb.end();
+    }
+
+    public void incRightScore(){
+        scoreRight ++;
+        if(scoreRight >= 21){
+            winnerStr = "Right player wins!";
+        }
+    }
+
+    public void incLeftScore(){
+        scoreLeft ++;
+        if(scoreLeft >= 21){
+            winnerStr = "Left player wins!";
+        }
     }
 
     @Override

@@ -59,7 +59,7 @@ public class PlayState extends State {
             sb.draw(rightPaddle.texture, rightPaddle.position.x, rightPaddle.position.y);
             sb.draw(leftPaddle.texture, leftPaddle.position.x, leftPaddle.position.y);
             sb.draw(ball.texture, ball.position.x, ball.position.y,20f,20f );
-            font.draw(sb, "Score left : Score right", MyGdxGame.WIDTH / 2 -100, MyGdxGame.HEIGHT-50);
+            font.draw(sb, "Score left: " + this.scoreLeft +  " " + "Score right: " + this.scoreRight, MyGdxGame.WIDTH / 2 -100, MyGdxGame.HEIGHT-50);
         }
         sb.end();
     }

@@ -36,7 +36,6 @@ class Animation{
         if (frame >= frameCount) {
             frame = 0;
         }
-        System.out.print(frame + "\n");
     }
 
     public TextureRegion getFrame() {

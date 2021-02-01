@@ -26,8 +26,6 @@ public class AnimateHeli {
     public AnimateHeli(int x, int y){
         position = new Vector3(x,y,0);
         heli = new Texture("heli1.png");
-        heliHeight = heli.getHeight();
-        heliWidth = heli.getWidth();
         heli.dispose();
         heliAnimated = new Texture("heliAnimation.png");
         texReg = new TextureRegion(heliAnimated);
@@ -49,8 +47,8 @@ public class AnimateHeli {
             UP = !UP;
             RIGHT = !RIGHT;
         }
-        moveX(SPEED*dt);
         moveY(SPEED*dt);
+        moveX(SPEED*dt);
     }
 
     public Vector3 getPosition() {
@@ -61,34 +59,36 @@ public class AnimateHeli {
         return heliAnimation.getFrame();
     }
 
-    public void moveX(float speed){
-        if(RIGHT){
-            position.x += speed;
+    public void moveX(float movement){
+        if (RIGHT) {
+            position.x += movement;
+        } else {
+            position.x -= movement;
+
         }
-        else{
-            position.x -= speed;
-        }
-        if(RIGHT && position.x < MyGdxGame.WIDTH - heliWidth){
+        if (RIGHT && position.x > MyGdxGame.WIDTH - heli.getWidth()) {
             RIGHT = false;
+            heliSprite.flip(true, false);
+
         }
-        if(!RIGHT && position.x <0 ) {
+        if (!RIGHT && position.x < 0) {
             RIGHT = true;
+            heliSprite.flip(true, false);
         }
     }
 
-    public void moveY(float speed){
-      if(UP){
-          position.y += speed;
-      }
-      else{
-          position.y -= speed;
-      }
-      if(UP && position.y > MyGdxGame.HEIGHT - heliHeight){
-          UP = false;
-      }
-      if(!UP && position.y < 0){
-          UP = true;
-      }
+    public void moveY(float movement){
+        if(UP){
+            position.y += movement;
+        } else {
+            position.y -= movement;
+        }
+        if (UP && position.y > MyGdxGame.HEIGHT - heli.getHeight()){
+            UP = false;
+        }
+        if (!UP && position.y <= 0){
+            UP = true;
+        }
     }
 
 
